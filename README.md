@@ -13,7 +13,7 @@ index.php provides an example of how this system can be used.
 
 ### API
 
-  - new Authentication()
+  - new Authentication($usernameField, $passwordField, $table)
   - connect($host, $hostUsername, $hostPassword, $hostDb)
   - authenticate($username, $password)
   - startSession()
@@ -21,15 +21,19 @@ index.php provides an example of how this system can be used.
 
 ### Example Usage
 ```php
+// on form submit
 if (isset($_POST['dom_login'])) {
-    // load authentication class
-    require "Authentication.php";
 
-    // receive dom inputs
+    // load Authentication class
+    require "Authentication.php";
+    
+    // get username and password inputs
     $username = filter_input(INPUT_POST, 'dom_username');
     $password = filter_input(INPUT_POST, 'dom_password');
 
-    $auth = new Authentication();
+    // create authentication system
+    $auth = new Authentication("username", "password", "users");
+
     try {
         // connect to authentication database
         $auth->connect("localhost", "root", null, "users");
