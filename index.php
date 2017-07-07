@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,88 +16,78 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title></title>
+    <title>Login</title>
 </head>
 <body>
-
-<br><br>
-
     <div class="container">
 
-        <form action="index.php" method="post">
+        <br><br>
 
+        <form action="index.php" method="post">
             <!-- USERNAME -->
             <div class="row">
-                <div class="col-xs-1 col-sm-4"></div>
-                <div class="col-xs-10 col-sm-4">
-                    <label>Username</label>
-                    <input type="text" class="form-control" name="dom_username">
+                <div class="col-sm-1 col-md-4"></div>
+                <div class="col-sm-10 col-md-4">
+                    <input type="text" class="form-control" name="dom_username" placeholder="username">
                 </div>
-                <div class="col-xs-1 col-sm-4"></div>
+                <div class="col-sm-1 col-md-4"></div>
             </div>
 
             <!-- PASSWORD -->
             <div class="row">
-                <div class="col-xs-1 col-sm-4"></div>
-                <div class="col-xs-10 col-sm-4">
-                    <label>Password</label>
-                    <input type="password" class="form-control" name="dom_password">
+                <div class="col-sm-1 col-md-4"></div>
+                <div class="col-sm-10 col-md-4">
+                    <input type="text" class="form-control" name="dom_password" placeholder="password">
                 </div>
-                <div class="col-xs-1 col-sm-4"></div>
+                <div class="col-sm-1 col-md-4"></div>
             </div>
-
-            <br>
 
             <!-- LOGIN -->
             <div class="row">
-                <div class="col-xs-1 col-sm-4"></div>
-                <div class="col-xs-10 col-sm-4">
+                <div class="col-sm-1 col-md-4"></div>
+                <div class="col-sm-10 col-md-4">
                     <button type="submit" name="dom_login" class="btn btn-default btn-block">Login</button>
                 </div>
-                <div class="col-xs-1 col-sm-4"></div>
+                <div class="col-sm-1 col-md-4"></div>
             </div>
-
         </form>
 
         <br><br>
 
-        <!-- ERROR OUTPUT -->
-        <div class="row">
-            <div class="col-xs-1 col-sm-4"></div>
-            <div class="col-xs-10 col-sm-4">  
-                <?php
+        <?php
 
-                    if (isset($_POST['dom_login'])) {
-                        require "Authentication.php";
+            // on form submit
+            if (isset($_POST['dom_login'])) {
 
-                        $username = filter_input(INPUT_POST, 'dom_username');
-                        $password = filter_input(INPUT_POST, 'dom_password');
+                // load Authentication class
+                require "Authentication.php";
 
-                        $auth = new Authentication();
-                        try {
-                            // connect to authentication database
-                            $auth->connect("localhost", "root", null, "users");
+                // get username and password inputs
+                $username = filter_input(INPUT_POST, 'dom_username');
+                $password = filter_input(INPUT_POST, 'dom_password');
 
-                            // authenticate user
-                            $auth->authenticate($username, $password);
+                // create authentication system
+                $auth = new Authentication("username", "password", "users");
 
-                            // declare session
-                            $auth->startSession();
-                            $_SESSION['login'] = $auth;
+                try {
+                    // connect to authentication database
+                    $auth->connect("localhost", "root", null, "users");
 
-                            // redirect
-                            header('Location: success.php');
-                        } catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
-                    }
+                    // authenticate user
+                    $auth->authenticate($username, $password);
 
-                ?>
-            </div>
-            <div class="col-xs-1 col-sm-4"></div>
-        </div>
+                    // declare session
+                    $auth->startSession();
+                    $_SESSION['login'] = $auth;
 
+                    // redirect
+                    header('Location: success.php');
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }
+
+        ?>
     </div>
-
 </body>
 </html>

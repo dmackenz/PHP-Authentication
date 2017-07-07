@@ -1,5 +1,4 @@
 <?php
-
     class Authentication {
         // name of host
         private $host;
@@ -16,18 +15,30 @@
         // mysqli connection
         private $dbc;
 
+        // database table
+        private $table;
+
+        // database username field
+        private $usernameField;
+
+        // database password field
+        private $passwordField;
+
         /**
          * __construct
          *
-         * Creates an authentication object
+         * Creates an authentication object.
          */
-        public function __construct() {
+        public function __construct($usernameField, $passwordField, $table) {
             // intialize instance data
             $this->host             = null;
             $this->hostDb           = null;
             $this->hostUsername     = null;
             $this->hostPassword     = null;
             $this->dbc              = null;
+            $this->usernameField    = $usernameField;
+            $this->passwordField    = $passwordField;
+            $this->table            = $table;
         }
 
         /**
@@ -57,13 +68,13 @@
          */
         public function authenticate($username, $password) {
             // make database friendly
-            $username = strtolower(Authentication::make_safe($username));
+            $username = strtolower(Authentication::make_safe($this->dbc, $username));
 
             // fetched hashed password
             $hash = null;
 
             // lookup password
-            $query = "SELECT password FROM users WHERE username='".$username."'";
+            $query = "SELECT " . $this->passwordField . " FROM " . $this->table . " WHERE " . $this->usernameField . "='".$username."'";
             $result = mysqli_query($this->dbc, $query);
             if ($result) {
 
@@ -116,7 +127,10 @@
             // remove session
             if (isset($_SESSION['login'])) {
                 unset($_SESSION['login']);
-            }    
+            }
+
+            // destroy session
+            session_destroy();    
         }
 
         /**
@@ -124,9 +138,8 @@
          *
          * Make input strings safe for database queries.
          */
-        public static function make_safe($str) {
-            return mysql_real_escape_string(strip_tags(trim($str)));
+        public static function make_safe($dbc, $str) {
+            return mysqli_real_escape_string($dbc, strip_tags(trim($str)));
         }
     }
-
 ?>
