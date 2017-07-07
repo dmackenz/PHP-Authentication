@@ -52,3 +52,18 @@ if (isset($_POST['dom_login'])) {
     }
 }
 ```
+```php
+<?php
+    // load authentication class
+    require "Authentication.php";
+
+    // start session
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // perform logout
+    $auth = $_SESSION['login'];
+    $auth->logout();
+?>
+```
