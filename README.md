@@ -7,7 +7,7 @@ An example database is included as an sql file. The credentials that are preset 
 > USERNAME: username <br>
 > PASSWORD: password
 
-Passwords are stored using the PASSWORD_BCRYPT hash algorithm.
+Passwords are stored using the Blowfish hash algorithm.
 
 index.php provides an example of how this system can be used. 
 
