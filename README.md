@@ -27,16 +27,25 @@ if (isset($_POST['dom_login'])) {
     // load Authentication class
     require "Authentication.php";
     
+    // declare settings
+    $userField = "username";
+    $passField = "password";
+    $table = "users";
+    $host = "localhost";
+    $hostUsername = "root";
+    $hostPassword = null;
+    $hostDB = "users";
+    
     // get username and password inputs
     $username = filter_input(INPUT_POST, 'dom_username');
     $password = filter_input(INPUT_POST, 'dom_password');
 
     // create authentication system
-    $auth = new Authentication("username", "password", "users");
+    $auth = new Authentication($userField, $passField, $table);
 
     try {
         // connect to authentication database
-        $auth->connect("localhost", "root", null, "users");
+        $auth->connect($host, $hostUsername, $hostPassword, $hostDB);
 
         // authenticate user
         $auth->authenticate($username, $password);
