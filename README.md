@@ -1,7 +1,7 @@
 # PHP Authentication System
 ##### Dylan MacKenzie
 
-This is a simple authentication system written in php that can be used in a wide variety of senarios. The system connects to a database which stores users usernames and passwords and verifies that they exist.
+This is a simple authentication system written in PHP that can be used in a wide variety of senarios. The system connects to a database which stores users usernames and passwords and verifies that they exist.
 
 An example database is included as an sql file. The credentials that are preset are:
 > USERNAME: username <br>
