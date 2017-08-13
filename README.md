@@ -4,14 +4,15 @@
 This is a simple authentication system written in PHP that can be used in a wide variety of senarios. The system connects to a database which stores users usernames and passwords and verifies that they exist.
 
 An example database is included as an sql file. The credentials that are preset are:
-> USERNAME: username <br>
-> PASSWORD: password
+| Example username | Example password |
+| ---------------- | ---------------- |
+| username         | password         |
 
 Passwords are stored using the Blowfish hash algorithm.
 
 index.php provides an example of how this system can be used. 
 
-### API
+### Interface
 
   - new Authentication($usernameField, $passwordField, $table)
   - connect($host, $hostUsername, $hostPassword, $hostDb)
@@ -21,6 +22,7 @@ index.php provides an example of how this system can be used.
 
 ### Example Usage
 ```php
+<?php
 // on form submit
 if (isset($_POST['dom_login'])) {
 
@@ -28,13 +30,13 @@ if (isset($_POST['dom_login'])) {
     require "Authentication.php";
     
     // declare settings
-    $userField = "username";
-    $passField = "password";
-    $table = "users";
-    $host = "localhost";
-    $hostUsername = "root";
-    $hostPassword = null;
-    $hostDB = "users";
+    $userField      = "username";
+    $passField      = "password";
+    $table          = "users";
+    $host           = "localhost";
+    $hostUsername   = "root";
+    $hostPassword   = null;
+    $hostDB         = "users";
     
     // get username and password inputs
     $username = filter_input(INPUT_POST, 'dom_username');
@@ -60,10 +62,11 @@ if (isset($_POST['dom_login'])) {
         echo $e->getMessage();
     }
 }
+?>
 ```
 ```php
 <?php
-    // load authentication class
+    // load Authentication class
     require "Authentication.php";
 
     // start session
