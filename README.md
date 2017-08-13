@@ -24,46 +24,46 @@ index.php provides an example of how this system can be used.
 ### Example Usage
 ```php
 <?php
-// on form submit
-if (isset($_POST['dom_login'])) {
+    // on form submit
+    if (isset($_POST['dom_login'])) {
 
-    // load Authentication class
-    require "Authentication.php";
-    
-    // declare settings
-    $userField      = "username";
-    $passField      = "password";
-    $table          = "users";
-    $host           = "localhost";
-    $hostUsername   = "root";
-    $hostPassword   = null;
-    $hostDB         = "users";
-    $redirectTo     = "success.php";
-    
-    // get username and password inputs
-    $username = filter_input(INPUT_POST, 'dom_username');
-    $password = filter_input(INPUT_POST, 'dom_password');
+        // load Authentication class
+        require "Authentication.php";
 
-    // create authentication system
-    $auth = new Authentication($userField, $passField, $table);
+        // declare settings
+        $userField      = "username";
+        $passField      = "password";
+        $table          = "users";
+        $host           = "localhost";
+        $hostUsername   = "root";
+        $hostPassword   = null;
+        $hostDB         = "users";
+        $redirectTo     = "success.php";
 
-    try {
-        // connect to authentication database
-        $auth->connect($host, $hostUsername, $hostPassword, $hostDB);
+        // get username and password inputs
+        $username = filter_input(INPUT_POST, 'dom_username');
+        $password = filter_input(INPUT_POST, 'dom_password');
 
-        // authenticate user
-        $auth->authenticate($username, $password);
+        // create authentication system
+        $auth = new Authentication($userField, $passField, $table);
 
-        // declare session
-        $auth->startSession();
-        $_SESSION['login'] = $auth;
+        try {
+            // connect to authentication database
+            $auth->connect($host, $hostUsername, $hostPassword, $hostDB);
 
-        // redirect
-        header('Location: ' . $redirectTo);
-    } catch (Exception $e) {
-        echo $e->getMessage();
+            // authenticate user
+            $auth->authenticate($username, $password);
+
+            // declare session
+            $auth->startSession();
+            $_SESSION['login'] = $auth;
+
+            // redirect
+            header('Location: ' . $redirectTo);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
-}
 ?>
 ```
 ```php
