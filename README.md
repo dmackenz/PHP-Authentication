@@ -38,6 +38,7 @@ if (isset($_POST['dom_login'])) {
     $hostUsername   = "root";
     $hostPassword   = null;
     $hostDB         = "users";
+    $redirectTo     = "success.php";
     
     // get username and password inputs
     $username = filter_input(INPUT_POST, 'dom_username');
@@ -58,7 +59,7 @@ if (isset($_POST['dom_login'])) {
         $_SESSION['login'] = $auth;
 
         // redirect
-        header('Location: success.php');
+        header('Location: ' . $redirectTo);
     } catch (Exception $e) {
         echo $e->getMessage();
     }
